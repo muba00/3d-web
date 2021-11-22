@@ -3,13 +3,15 @@ import * as THREE from '../three/build/three.module.js';
 import Stats from '../three/examples/jsm/libs/stats.module.js';
 
 import { OrbitControls } from '../three/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from '../three/examples/jsm/loaders/GLTFLoader.js';
+//import { GLTFLoader } from '../three/examples/jsm/loaders/GLTFLoader.js';
 import { FBXLoader } from '../three/examples/jsm/loaders/FBXLoader.js';
 
 
 var scene, renderer, camera;
 var controls;
-var mixer;
+var mixers = [];
+
+var previousRaf;
 
 var container = document.getElementById("container");
 const stats = new Stats();
@@ -22,7 +24,6 @@ init();
 function init() {
     // scene
     scene = new THREE.Scene();
-    scene.background = new THREE.Color("#eee");
 
     // camera
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -39,6 +40,9 @@ function init() {
 
     // renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
@@ -50,26 +54,30 @@ function init() {
     LoadSky();
     LoadGround();
     LoadModel();
+    LoadObjects();
     raf();
 }
 
 
 
 
-// load model
+// load models
+var mainCharacter, mainCharacterState;
 function LoadModel() {
-    const loader = new FBXLoader();
-
-    loader.load('../resources/3d-models/remy.fbx', (fbx) => {
+    mainCharacter = new FBXLoader();
+    mainCharacter.setPath('../resources/3d-models/Remy/')
+    mainCharacter.load('remy.fbx', (fbx) => {
         fbx.scale.setScalar(0.1);
         fbx.traverse(c => {
             c.castShadow = true;
         });
 
-        const anim = new FBXLoader();
-        anim.load('../resources/3d-models/Dancing.fbx', (anim) => {
-            mixer = new THREE.AnimationMixer(fbx);
-            const idle = mixer.clipAction(anim.animations[0]);
+        mainCharacterState = new FBXLoader();
+        mainCharacterState.setPath('../resources/3d-models/Remy/');
+        mainCharacterState.load('Hip Hop Dancing.fbx', (mainCharacterState) => {
+            const mixer = new THREE.AnimationMixer(fbx);
+            mixers.push(mixer);
+            const idle = mixer.clipAction(mainCharacterState.animations[0]);
             idle.play();
         });
 
@@ -77,6 +85,31 @@ function LoadModel() {
     }, undefined, function (error) {
         console.error(error);
     });
+}
+
+
+function LoadObjects() {
+    const fridgeLoader = new FBXLoader();
+    fridgeLoader.load('../resources/3d-models/Furniture/Kitchen_Fridge.fbx',
+        (fridge) => {
+            fridge.scale.setScalar(0.1);
+            fridge.position.set(50, 0, 0);
+            scene.add(fridge);
+        },
+        undefined, function (error) {
+            console.error(error);
+        });
+
+    const ovenLoader = new FBXLoader();
+    ovenLoader.load('../resources/3d-models/Furniture/Kitchen_Oven.fbx',
+        (oven) => {
+            oven.scale.setScalar(0.1);
+            oven.position.set(-50, 0, 0)
+            scene.add(oven);
+        },
+        undefined, function (error) {
+            console.error(error);
+        });
 }
 
 
@@ -124,12 +157,24 @@ function LoadGround() {
 
 
 function raf() {
-    requestAnimationFrame(() => {
+    requestAnimationFrame((t) => {
+        if (previousRaf === null) previousRaf = t;
+
         controls.update();
         stats.update();
         renderer.render(scene, camera);
         raf();
+
+        updateMixers(t - previousRaf);
+        previousRaf = t;
     });
+}
+
+function updateMixers(t) {
+    const ts = t / 1000;
+    if (mixers) {
+        mixers.map(m => { m.update(ts) });
+    }
 }
 
 
