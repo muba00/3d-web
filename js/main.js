@@ -65,7 +65,7 @@ function init() {
 var mainCharacter, mainCharacterState;
 function LoadModel() {
     mainCharacter = new FBXLoader();
-    mainCharacter.setResourcePath('../resources/3d-models/Remy/')
+    mainCharacter.setResourcePath('/resources/3d-models/Remy/')
     mainCharacter.load('remy.fbx', (fbx) => {
         fbx.scale.setScalar(0.1);
         fbx.traverse(c => {
@@ -73,7 +73,7 @@ function LoadModel() {
         });
 
         mainCharacterState = new FBXLoader();
-        mainCharacterState.setResourcePath('../resources/3d-models/Remy/');
+        mainCharacterState.setResourcePath('/resources/3d-models/Remy/');
         mainCharacterState.load('Hip Hop Dancing.fbx', (mainCharacterState) => {
             const mixer = new THREE.AnimationMixer(fbx);
             mixers.push(mixer);
@@ -90,7 +90,7 @@ function LoadModel() {
 
 function LoadObjects() {
     const fridgeLoader = new FBXLoader();
-    fridgeLoader.setResourcePath('../resources/3d-models/Furniture/');
+    fridgeLoader.setResourcePath('/resources/3d-models/Furniture/');
     fridgeLoader.load('Kitchen_Fridge.fbx',
         (fridge) => {
             fridge.scale.setScalar(0.1);
@@ -102,7 +102,7 @@ function LoadObjects() {
         });
 
     const ovenLoader = new FBXLoader();
-    ovenLoader.setResourcePath('../resources/3d-models/Furniture/');
+    ovenLoader.setResourcePath('/resources/3d-models/Furniture/');
     ovenLoader.load('Kitchen_Oven.fbx',
         (oven) => {
             oven.scale.setScalar(0.1);
@@ -119,7 +119,7 @@ function LoadObjects() {
 // load sky cube
 function LoadSky() {
     const loader = new THREE.CubeTextureLoader();
-    loader.setResourcePath('../three/examples/textures/cube/skyboxsun25deg/');
+    loader.setResourcePath('/three/examples/textures/cube/skyboxsun25deg/');
     const texture = loader.load([
         'px.jpg',
         'nx.jpg',
@@ -134,7 +134,7 @@ function LoadSky() {
 //  GROUND
 function LoadGround() {
     const gt = new THREE.TextureLoader();
-    gt.setResourcePath('../resources/textures/');
+    gt.setResourcePath('/resources/textures/');
     gt.load("ground2.png");
     const gg = new THREE.PlaneGeometry(100, 100);
     const gm = new THREE.MeshPhongMaterial({ color: 0xffffff, map: gt });
