@@ -65,16 +65,14 @@ function init() {
 var mainCharacter, mainCharacterState;
 function LoadModel() {
     mainCharacter = new FBXLoader();
-    mainCharacter.setPath('./../resources/3d-models/Remy/')
-    mainCharacter.load('remy.fbx', (fbx) => {
+    mainCharacter.load('../resources/3d-models/Remy/remy.fbx', (fbx) => {
         fbx.scale.setScalar(0.1);
         fbx.traverse(c => {
             c.castShadow = true;
         });
 
         mainCharacterState = new FBXLoader();
-        mainCharacterState.setPath('../resources/3d-models/Remy/');
-        mainCharacterState.load('Hip Hop Dancing.fbx', (mainCharacterState) => {
+        mainCharacterState.load('../resources/3d-models/Remy/Hip Hop Dancing.fbx', (mainCharacterState) => {
             const mixer = new THREE.AnimationMixer(fbx);
             mixers.push(mixer);
             const idle = mixer.clipAction(mainCharacterState.animations[0]);
