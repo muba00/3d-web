@@ -65,14 +65,16 @@ function init() {
 var mainCharacter, mainCharacterState;
 function LoadModel() {
     mainCharacter = new FBXLoader();
-    mainCharacter.load('./resources/3d-models/Remy/remy.fbx', (fbx) => {
+    mainCharacter.setResourcePath('../resources/3d-models/Remy/')
+    mainCharacter.load('remy.fbx', (fbx) => {
         fbx.scale.setScalar(0.1);
         fbx.traverse(c => {
             c.castShadow = true;
         });
 
         mainCharacterState = new FBXLoader();
-        mainCharacterState.load('./resources/3d-models/Remy/Hip Hop Dancing.fbx', (mainCharacterState) => {
+        mainCharacterState.setResourcePath('../resources/3d-models/Remy/');
+        mainCharacterState.load('Hip Hop Dancing.fbx', (mainCharacterState) => {
             const mixer = new THREE.AnimationMixer(fbx);
             mixers.push(mixer);
             const idle = mixer.clipAction(mainCharacterState.animations[0]);
@@ -88,7 +90,8 @@ function LoadModel() {
 
 function LoadObjects() {
     const fridgeLoader = new FBXLoader();
-    fridgeLoader.load('./resources/3d-models/Furniture/Kitchen_Fridge.fbx',
+    fridgeLoader.setResourcePath('../resources/3d-models/Furniture/');
+    fridgeLoader.load('Kitchen_Fridge.fbx',
         (fridge) => {
             fridge.scale.setScalar(0.1);
             fridge.position.set(50, 0, 0);
@@ -99,7 +102,8 @@ function LoadObjects() {
         });
 
     const ovenLoader = new FBXLoader();
-    ovenLoader.load('./resources/3d-models/Furniture/Kitchen_Oven.fbx',
+    ovenLoader.setResourcePath('../resources/3d-models/Furniture/');
+    ovenLoader.load('Kitchen_Oven.fbx',
         (oven) => {
             oven.scale.setScalar(0.1);
             oven.position.set(-50, 0, 0)
@@ -115,13 +119,14 @@ function LoadObjects() {
 // load sky cube
 function LoadSky() {
     const loader = new THREE.CubeTextureLoader();
+    loader.setResourcePath('/three/examples/textures/cube/skyboxsun25deg/');
     const texture = loader.load([
-        '/three/examples/textures/cube/skyboxsun25deg/px.jpg',
-        '/three/examples/textures/cube/skyboxsun25deg/nx.jpg',
-        '/three/examples/textures/cube/skyboxsun25deg/py.jpg',
-        '/three/examples/textures/cube/skyboxsun25deg/ny.jpg',
-        '/three/examples/textures/cube/skyboxsun25deg/pz.jpg',
-        '/three/examples/textures/cube/skyboxsun25deg/nz.jpg',
+        'px.jpg',
+        'nx.jpg',
+        'py.jpg',
+        'ny.jpg',
+        'pz.jpg',
+        'nz.jpg',
     ]);
     scene.background = texture;
 }
