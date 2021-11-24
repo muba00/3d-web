@@ -65,14 +65,14 @@ function init() {
 var mainCharacter, mainCharacterState;
 function LoadModel() {
     mainCharacter = new FBXLoader();
-    mainCharacter.load('../resources/3d-models/Remy/remy.fbx', (fbx) => {
+    mainCharacter.load('./resources/3d-models/Remy/remy.fbx', (fbx) => {
         fbx.scale.setScalar(0.1);
         fbx.traverse(c => {
             c.castShadow = true;
         });
 
         mainCharacterState = new FBXLoader();
-        mainCharacterState.load('../resources/3d-models/Remy/Hip Hop Dancing.fbx', (mainCharacterState) => {
+        mainCharacterState.load('./resources/3d-models/Remy/Hip Hop Dancing.fbx', (mainCharacterState) => {
             const mixer = new THREE.AnimationMixer(fbx);
             mixers.push(mixer);
             const idle = mixer.clipAction(mainCharacterState.animations[0]);
@@ -88,7 +88,7 @@ function LoadModel() {
 
 function LoadObjects() {
     const fridgeLoader = new FBXLoader();
-    fridgeLoader.load('../resources/3d-models/Furniture/Kitchen_Fridge.fbx',
+    fridgeLoader.load('./resources/3d-models/Furniture/Kitchen_Fridge.fbx',
         (fridge) => {
             fridge.scale.setScalar(0.1);
             fridge.position.set(50, 0, 0);
@@ -99,7 +99,7 @@ function LoadObjects() {
         });
 
     const ovenLoader = new FBXLoader();
-    ovenLoader.load('../resources/3d-models/Furniture/Kitchen_Oven.fbx',
+    ovenLoader.load('./resources/3d-models/Furniture/Kitchen_Oven.fbx',
         (oven) => {
             oven.scale.setScalar(0.1);
             oven.position.set(-50, 0, 0)
