@@ -119,7 +119,7 @@ function LoadObjects() {
 // load sky cube
 function LoadSky() {
     const loader = new THREE.CubeTextureLoader();
-    loader.setResourcePath('/three/examples/textures/cube/skyboxsun25deg/');
+    loader.setResourcePath('../three/examples/textures/cube/skyboxsun25deg/');
     const texture = loader.load([
         'px.jpg',
         'nx.jpg',
@@ -133,7 +133,9 @@ function LoadSky() {
 
 //  GROUND
 function LoadGround() {
-    const gt = new THREE.TextureLoader().load("/resources/textures/ground2.png");
+    const gt = new THREE.TextureLoader();
+    gt.setResourcePath('../resources/textures/');
+    gt.load("ground2.png");
     const gg = new THREE.PlaneGeometry(100, 100);
     const gm = new THREE.MeshPhongMaterial({ color: 0xffffff, map: gt });
 
