@@ -65,7 +65,7 @@ function init() {
 var mainCharacter, mainCharacterState;
 function LoadModel() {
     mainCharacter = new FBXLoader();
-    mainCharacter.setPath('../resources/3d-models/Remy/')
+    mainCharacter.setPath('./../resources/3d-models/Remy/')
     mainCharacter.load('remy.fbx', (fbx) => {
         fbx.scale.setScalar(0.1);
         fbx.traverse(c => {
