@@ -65,7 +65,7 @@ function init() {
 var mainCharacter, mainCharacterState;
 function LoadModel() {
     mainCharacter = new FBXLoader();
-    mainCharacter.setResourcePath('/resources/3d-models/Remy/')
+    mainCharacter.setPath(SERVER_DIR_PATH + 'resources/3d-models/Remy/')
     mainCharacter.load('remy.fbx', (fbx) => {
         fbx.scale.setScalar(0.1);
         fbx.traverse(c => {
@@ -73,7 +73,7 @@ function LoadModel() {
         });
 
         mainCharacterState = new FBXLoader();
-        mainCharacterState.setResourcePath('/resources/3d-models/Remy/');
+        mainCharacterState.setPath(SERVER_DIR_PATH + 'resources/3d-models/Remy/');
         mainCharacterState.load('Hip Hop Dancing.fbx', (mainCharacterState) => {
             const mixer = new THREE.AnimationMixer(fbx);
             mixers.push(mixer);
@@ -90,8 +90,7 @@ function LoadModel() {
 
 function LoadObjects() {
     const fridgeLoader = new FBXLoader();
-    fridgeLoader.setResourcePath('/resources/3d-models/Furniture/');
-    fridgeLoader.load('Kitchen_Fridge.fbx',
+    fridgeLoader.load(SERVER_DIR_PATH + 'resources/3d-models/Furniture/Kitchen_Fridge.fbx',
         (fridge) => {
             fridge.scale.setScalar(0.1);
             fridge.position.set(50, 0, 0);
@@ -102,8 +101,7 @@ function LoadObjects() {
         });
 
     const ovenLoader = new FBXLoader();
-    ovenLoader.setResourcePath('/resources/3d-models/Furniture/');
-    ovenLoader.load('Kitchen_Oven.fbx',
+    ovenLoader.load(SERVER_DIR_PATH + 'resources/3d-models/Furniture/Kitchen_Oven.fbx',
         (oven) => {
             oven.scale.setScalar(0.1);
             oven.position.set(-50, 0, 0)
@@ -119,23 +117,20 @@ function LoadObjects() {
 // load sky cube
 function LoadSky() {
     const loader = new THREE.CubeTextureLoader();
-    loader.setResourcePath('/three/examples/textures/cube/skyboxsun25deg/');
     const texture = loader.load([
-        'px.jpg',
-        'nx.jpg',
-        'py.jpg',
-        'ny.jpg',
-        'pz.jpg',
-        'nz.jpg',
+        SERVER_DIR_PATH + 'three/examples/textures/cube/skyboxsun25deg/px.jpg',
+        SERVER_DIR_PATH + 'three/examples/textures/cube/skyboxsun25deg/nx.jpg',
+        SERVER_DIR_PATH + 'three/examples/textures/cube/skyboxsun25deg/py.jpg',
+        SERVER_DIR_PATH + 'three/examples/textures/cube/skyboxsun25deg/ny.jpg',
+        SERVER_DIR_PATH + 'three/examples/textures/cube/skyboxsun25deg/pz.jpg',
+        SERVER_DIR_PATH + 'three/examples/textures/cube/skyboxsun25deg/nz.jpg',
     ]);
     scene.background = texture;
 }
 
 //  GROUND
 function LoadGround() {
-    const gt = new THREE.TextureLoader();
-    gt.setResourcePath('/resources/textures/');
-    gt.load("ground2.png");
+    const gt = new THREE.TextureLoader().load(SERVER_DIR_PATH + "resources/textures/ground2.png");
     const gg = new THREE.PlaneGeometry(100, 100);
     const gm = new THREE.MeshPhongMaterial({ color: 0xffffff, map: gt });
 
